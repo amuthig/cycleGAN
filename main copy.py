@@ -133,16 +133,19 @@ class MedicalImageDataset(BaseDataset):
             img = self.transform(img)
         return img
 
-# Define dataset and data loader
-transform = transforms.Compose([transforms.ToTensor()])
-#data_folder = 'path/to/3d/medical/images'
-#dataset = MedicalImageDataset(data_folder, transform)
-#dataloader = DataLoader(dataset, batch_size=4, shuffle=True)
 
-# Define loss functions and optimizers
+# Define dataset and dataloader for domain A and B
+
+transform = transforms.Compose([transforms.ToTensor()])
+dataset_A = MedicalImageDataset('H:\TDSI\cc359_preprocessed\TrainVolumes', transform)
+dataloader_A = DataLoader(dataset_A, batch_size=4, shuffle=True)
+
+dataset_B = MedicalImageDataset('H:\TDSI\cc359_preprocessed\Different\TrainVolumes', transform)
+dataloader_B = DataLoader(dataset_B, batch_size=4, shuffle=True)
+
 criterion_GAN = nn.MSELoss()
 criterion_cycle = nn.L1Loss()
-optimizer_G = optim.Adam(CycleGAN.gen_A.parameters(), lr=0.0002, betas=(0.5, 0.999))
+optimizer_G = optim.Adam(.parameters(), lr=0.0002, betas=(0.5, 0.999))
 optimizer_D = optim.Adam(CycleGAN.dis_A.parameters(), lr=0.0002, betas=(0.5, 0.999))
 
 # Training loop
@@ -177,29 +180,3 @@ for epoch in range(n_epochs):
 
 
 
-    # Define dataset and dataloader for domain A and B
-transform = transforms.Compose([transforms.ToTensor()])
-dataset_A = MedicalImageDataset('path/to/3d/medical/images/A/', transform)
-dataloader_A = DataLoader(dataset_A, batch_size=4, shuffle=True)
-
-dataset_B = MedicalImageDataset('path/to/3d/medical/images/B/', transform)
-dataloader_B = DataLoader(dataset_B, batch_size=4, shuffle=True)
-
-# Initialize generator
-cycle_gan = CycleGAN(input_nc=1, output_nc=1, n_residual_blocks=9)
-
-# Set generator to evaluation mode
-cycle_gan.eval()
-
-# Generate images and save them
-with torch.no_grad():
-    for i, (real_A, real_B) in enumerate(zip(dataloader_A, dataloader_B)):
-        fake_A, _, _, _, _, _, _, _ = cycle_gan(real_A, real_B)
-        for j in range(fake_A.size(0)):
-            img = fake_A[j, :, :, :].squeeze().numpy()
-            img = (img + 1) * 127.5
-            img = img.astype(np.uint8)
-            # Save the generated image
-            img = nib.Nifti1Image(img, np.eye(4))
-            nib.save(img, f'path/to/output/folder/{i*4+j}.nii')
-    print("All files generated!")

@@ -133,56 +133,14 @@ class MedicalImageDataset(BaseDataset):
             img = self.transform(img)
         return img
 
-# Define dataset and data loader
+
+
+   # Define dataset and dataloader for domain A and B
 transform = transforms.Compose([transforms.ToTensor()])
-#data_folder = 'path/to/3d/medical/images'
-#dataset = MedicalImageDataset(data_folder, transform)
-#dataloader = DataLoader(dataset, batch_size=4, shuffle=True)
-
-# Define loss functions and optimizers
-criterion_GAN = nn.MSELoss()
-criterion_cycle = nn.L1Loss()
-optimizer_G = optim.Adam(CycleGAN.gen_A.parameters(), lr=0.0002, betas=(0.5, 0.999))
-optimizer_D = optim.Adam(CycleGAN.dis_A.parameters(), lr=0.0002, betas=(0.5, 0.999))
-
-# Training loop
-for epoch in range(n_epochs):
-    for i, (real_A, real_B) in enumerate(dataloader):
-        # Generate fake images
-        fake_A, fake_B, rec_A, rec_B, dis_real_A, dis_real_B, dis_fake_A, dis_fake_B = cycle_gan(real_A, real_B)
-
-        # Train discriminator
-        optimizer_D.zero_grad()
-        loss_dis_real = criterion_GAN(dis_real_A, torch.ones_like(dis_real_A))
-        loss_dis_fake = criterion_GAN(dis_fake_A, torch.zeros_like(dis_fake_A))
-        loss_dis_A = (loss_dis_real + loss_dis_fake) * 0.5
-        loss_dis_real = criterion_GAN(dis_real_B, torch.ones_like(dis_real_B))
-        loss_dis_fake = criterion_GAN(dis_fake_B, torch.zeros_like(dis_fake_B))
-        loss_dis_B = (loss_dis_real + loss_dis_fake) * 0.5
-        loss_dis = loss_dis_A + loss_dis_B
-        loss_dis.backward()
-        optimizer_D.step()
-
-        # Train generator
-        optimizer_G.zero_grad()
-        loss_gen_A = criterion_GAN(dis_fake_B, torch.ones_like(dis_fake_B))
-        loss_cycle_A = criterion_cycle(rec_A, real_A) * 10
-        loss_gen_B = criterion_GAN(dis_fake_A, torch.ones_like(dis_fake_A))
-        loss_cycle_B = criterion_cycle(rec_B, real_B) * 10
-        loss_gen = loss_gen_A + loss_gen_B + loss_cycle_A + loss_cycle_B
-        loss_gen.backward()
-        optimizer_G.step()
-
-    print(f'Epoch [{epoch+1}/{n_epochs}] Loss D: {loss_dis.item():.4f} Loss G: {loss_gen.item():.4f}')
-
-
-
-    # Define dataset and dataloader for domain A and B
-transform = transforms.Compose([transforms.ToTensor()])
-dataset_A = MedicalImageDataset('path/to/3d/medical/images/A/', transform)
+dataset_A = MedicalImageDataset('H:\TDSI\cc359_preprocessed\TrainVolumes', transform)
 dataloader_A = DataLoader(dataset_A, batch_size=4, shuffle=True)
 
-dataset_B = MedicalImageDataset('path/to/3d/medical/images/B/', transform)
+dataset_B = MedicalImageDataset('H:\TDSI\cc359_preprocessed\Different\TrainVolumes', transform)
 dataloader_B = DataLoader(dataset_B, batch_size=4, shuffle=True)
 
 # Initialize generator
@@ -201,5 +159,6 @@ with torch.no_grad():
             img = img.astype(np.uint8)
             # Save the generated image
             img = nib.Nifti1Image(img, np.eye(4))
-            nib.save(img, f'path/to/output/folder/{i*4+j}.nii')
+            nib.save(img, f'H:\TDSI\cc359_preprocessed\Sortie/{i*4+j}.nii')
     print("All files generated!")
+
