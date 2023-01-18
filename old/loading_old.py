@@ -21,7 +21,7 @@ from monai.utils import set_determinism
 
 
 
-
+#prépare les données pour le modèle
 def prepare(in_dir, MRI, pixdim=(1.5, 1.5, 1.0), a_min=-200, a_max=200, spatial_size=[128,128,128], cache=False ):
 
     """
