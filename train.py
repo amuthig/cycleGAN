@@ -7,7 +7,6 @@ from dataset import customDataset
 
 from utils import load_checkpoint, save_checkpoint
 from torch.utils.data import DataLoader
-from torch.utils.data import TensorDataset
 
 from discriminator_model import Discriminator
 from generator_model import Generator
@@ -135,7 +134,7 @@ def main():
 
     dataset = customDataset(config.TRAIN_DIR + "/MRI2/TrainVolumes", config.TRAIN_DIR + "/MRI3/TrainVolumes")
 
-    
+
 
     
     loader = DataLoader( #create the dataloader
