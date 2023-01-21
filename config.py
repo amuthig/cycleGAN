@@ -3,20 +3,20 @@ import albumentations as A
 from albumentations.pytorch import ToTensorV2
 
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
-TRAIN_DIR = "data/train"
-VAL_DIR = "data/val"
+TRAIN_DIR = "data"
+VAL_DIR = "data"
 BATCH_SIZE = 1
 LEARNING_RATE = 2e-4
 LAMBDA_IDENTITY = 0.0
 LAMBDA_CYCLE = 10.0
 NUM_WORKERS = 4
 NUM_EPOCHS = 200
-LOAD_MODEL = True
+LOAD_MODEL = False
 SAVE_MODEL = True
-CHECKPOINT_GEN_A = "genA.pth.tar"
-CHECKPOINT_GEN_B = "genB.pth.tar"
-CHECKPOINT_CRITIC_A = "criticA.pth.tar"
-CHECKPOINT_CRITIC_B = "criticB.pth.tar"
+CHECKPOINT_GEN_A = "saved_model/genA.pth.tar"
+CHECKPOINT_GEN_B = "saved_model/genB.pth.tar"
+CHECKPOINT_CRITIC_A = "saved_model/criticA.pth.tar"
+CHECKPOINT_CRITIC_B = "saved_model/criticB.pth.tar"
 
 transforms = A.Compose(
     [

@@ -1,7 +1,7 @@
 venv_cycleGAN/
 *.log
 data/
-data2/
 saved_images/
+saved_model/
 *.tar
 *.tar.gz

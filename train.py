@@ -3,9 +3,11 @@ import torch.nn as nn
 from tqdm import tqdm
 import config
 from torchvision.utils import save_image
-from dataset import HorseZebrasDataset
+from dataset import customDataset
+
 from utils import load_checkpoint, save_checkpoint
 from torch.utils.data import DataLoader
+from torch.utils.data import TensorDataset
 
 from discriminator_model import Discriminator
 from generator_model import Generator
@@ -86,8 +88,8 @@ def train_fn(disc_A, disc_B, gen_A2B, gen_B2A, loader, opt_disc, opt_gen, L1, ms
         g_scaler.update() #update the scale for next iteration
 
         if idx % 100 == 0:
-            save_image(fake_A*0.5 + 0.5, f"saved_images/{idx}_fake_A.png")
-            save_image(fake_B*0.5 + 0.5, f"saved_images/{idx}_fake_B.png")
+            save_image(fake_A, f"saved_images/{idx}_fake_A.png")
+            save_image(fake_B, f"saved_images/{idx}_fake_B.png")
 
 
 
@@ -96,11 +98,10 @@ def train_fn(disc_A, disc_B, gen_A2B, gen_B2A, loader, opt_disc, opt_gen, L1, ms
 
 
 def main():
-    print("coucou")
-    disc_A = Discriminator(in_channels=3).to(config.DEVICE)
-    disc_B = Discriminator(in_channels=3).to(config.DEVICE)
-    gen_A2B = Generator(img_channels=3, num_residuals=9).to(config.DEVICE)
-    gen_B2A = Generator(img_channels=3, num_residuals=9).to(config.DEVICE)
+    disc_A = Discriminator(in_channels=1).to(config.DEVICE)
+    disc_B = Discriminator(in_channels=1).to(config.DEVICE)
+    gen_A2B = Generator(img_channels=1, num_residuals=9).to(config.DEVICE)
+    gen_B2A = Generator(img_channels=1, num_residuals=9).to(config.DEVICE)
     opt_disc = torch.optim.Adam(
         list(disc_A.parameters()) + list(disc_B.parameters()),
         lr=config.LEARNING_RATE,
@@ -129,10 +130,15 @@ def main():
             config.CHECKPOINT_CRITIC_B, disc_B, opt_disc, config.LEARNING_RATE,
         )
     
+    #create the dataset
+    
 
-    dataset = HorseZebrasDataset(root_horse=config.TRAIN_DIR + "/horses", root_zebra=config.TRAIN_DIR + "/zebras", transform=config.transforms) #create the dataset
+    dataset = customDataset(config.TRAIN_DIR + "/MRI2/TrainVolumes", config.TRAIN_DIR + "/MRI3/TrainVolumes")
 
-    loader = torch.utils.data.DataLoader( #create the dataloader
+    
+
+    
+    loader = DataLoader( #create the dataloader
         dataset,
         batch_size=config.BATCH_SIZE,
         shuffle=True,
