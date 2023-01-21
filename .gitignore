@@ -1,5 +1,6 @@
 venv_cycleGAN/
 *.log
 data/
+data2/
 *.tar
 *.tar.gz
