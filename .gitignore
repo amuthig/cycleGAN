@@ -5,3 +5,6 @@ saved_images/
 saved_model/
 *.tar
 *.tar.gz
+generation_epoch1_avec_normalisation_avec_identity_loss/
+generation_epoch1_sans_normalisation_sans_identity_loss/
+generation_epoch50_avec_normalisation_avec_identity_loss/

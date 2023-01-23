@@ -6,29 +6,30 @@ from generator_model import Generator
 from discriminator_model import Discriminator
 import config
 import utils
+
 #test du model sur une image issue du dataset au format nifti
 
-disc_A = Discriminator(in_channels=1).to(config.DEVICE)
-disc_B = Discriminator(in_channels=1).to(config.DEVICE)
-gen_A2B = Generator(img_channels=1, num_residuals=9).to(config.DEVICE)
-gen_B2A = Generator(img_channels=1, num_residuals=9).to(config.DEVICE)
-opt_disc = torch.optim.Adam(
+disc_A = Discriminator(in_channels=1).to(config.DEVICE) #instanciation du discriminateur
+disc_B = Discriminator(in_channels=1).to(config.DEVICE) #instanciation du discriminateur
+gen_A2B = Generator(img_channels=1, num_residuals=9).to(config.DEVICE) #instanciation du générateur
+gen_B2A = Generator(img_channels=1, num_residuals=9).to(config.DEVICE) #instanciation du générateur
+opt_disc = torch.optim.Adam( #instanciation de l'optimiseur
     list(disc_A.parameters()) + list(disc_B.parameters()),
     lr=config.LEARNING_RATE,
     betas=(0.5, 0.999),
 )
-opt_gen = torch.optim.Adam(
+opt_gen = torch.optim.Adam( #instanciation de l'optimiseur
     list(gen_A2B.parameters()) + list(gen_B2A.parameters()),
     lr=config.LEARNING_RATE,
     betas=(0.5, 0.999),
 )
 
-utils.load_checkpoint(
+utils.load_checkpoint( #chargement des poids du model
     config.CHECKPOINT_GEN_B, gen_A2B, opt_gen, config.LEARNING_RATE,
 )
 
-gen_A2B.eval()
-gen_B2A.eval()
+gen_A2B.eval() #passage du model en mode evaluation
+gen_B2A.eval() #passage du model en mode evaluation
 
 
 
