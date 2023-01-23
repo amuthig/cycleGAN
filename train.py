@@ -132,7 +132,7 @@ def main():
     #create the dataset
     
 
-    dataset = customDataset(config.TRAIN_DIR + "/MRI2/TrainVolumes", config.TRAIN_DIR + "/MRI3/TrainVolumes")
+    dataset = customDataset(config.TRAIN_DIR + "/MRI3/TrainVolumes", config.TRAIN_DIR + "/MRI4/TrainVolumes")
 
 
 

@@ -58,6 +58,11 @@ class customDataset(Dataset):
         for i in range(self.length_dataset):
             self.slicesA[i] = self.slicesA[i][0:self.min_x, 0:self.min_y]
             self.slicesB[i] = self.slicesB[i][0:self.min_x, 0:self.min_y]
+
+        #on normalise les slices
+        for i in range(self.length_dataset):
+            self.slicesA[i] = self.slicesA[i] / np.max(self.slicesA[i])
+            self.slicesB[i] = self.slicesB[i] / np.max(self.slicesB[i])
         
 
         #on transforme les slices en float
