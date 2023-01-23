@@ -1,6 +1,6 @@
 Ce code est un script d'entraînement pour un modèle de génération d'images appelé CycleGAN. Il utilise PyTorch et torchvision pour gérer les images et les réseaux de neurones, ainsi que tqdm pour afficher une barre de progression pendant l'entraînement.
 
-Le modèle CycleGAN est formé de deux discriminateurs (disc_A et disc_B) et deux générateurs (gen_A2B et gen_B2A). Les discriminateurs sont utilisés pour détecter si une image est réelle ou générée, tandis que les générateurs sont utilisés pour générer une image dans un domaine (par exemple, A) à partir d'une image dans un autre domaine (par exemple, B).
+Le modèle CycleGAN est formé de deux discriminateurs (disc_A et disc_B) et deux générateurs (gen_A2B et gen_B2A). Les discriminateurs sont utilisés pour détecter si une image est réelle ou générée, tandis que les générateurs sont utilisés pour générer une image dans un domaine (par exemple, A) à partir d'une image dans un autre domaine (par exemple, B). Ici les domaines seront les différents types de scanner utilsés pour réaliser les IRM.
 
 Le script définit une fonction d'entraînement appelée train_fn, qui prend en entrée les modèles, un dataloader, des optimiseurs et des fonctions de coût (L1, mse) pour entraîner les modèles. Il utilise également torch.cuda.amp.autocast() pour activer l'accélération matérielle pour les calculs sur la carte graphique.
 
