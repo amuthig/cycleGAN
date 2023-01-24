@@ -10,7 +10,7 @@ Les résultats de l'entraînement sont stockés dans une liste appelée gen_loss
 
 FORMAT DES DONNEES A RESPECTER:
 Il est nécessaire de créer 2 dossiers vides à la racine du projet nommés: "saved_images" et "saved_model" afin que le projet enregistre les données au bon endroit. 
-De plus, les données doivent être mises dans un dossier "data" situé à la racine du projet. Les chemins d'accès aux données est à adapter au niveau de la création du dataset dans le fichier "train.py"
+De plus, les données doivent être mises dans un dossier "data" situé à la racine du projet. Les chemins d'accès aux données est à adapter au niveau de la création du dataset dans le fichier "train.py" à la ligne 135 ou à l'endroit de création du dataset dans la partie TRAIN du fichier cycleGAN.ipynb
 
-La partie entrainement peut être lancée en utilisant le fichier cycleGAN.ipynb
-Pour effectuer un test en inférence, il est nécessaire d'utiliser le fichier inference.py
+La partie entrainement peut être lancée en utilisant le fichier cycleGAN.ipynb ou le fichier train.py
+Pour effectuer un test en inférence, il est nécessaire d'utiliser le fichier inference.py car la partie inférence n'est pas contenue dans le fichier cycleGAN.ipynb
